@@ -82,6 +82,7 @@ interface Props {
   action?: () => void;
   buttonText?: string;
   header?: string;
+  buttonDisabled?: boolean;
 }
 
 const Popup = ({
@@ -91,6 +92,7 @@ const Popup = ({
   action,
   buttonText,
   header,
+  buttonDisabled,
 }: Props) => {
   if (!show) return null;
 
@@ -113,7 +115,7 @@ const Popup = ({
         {children}
         {action && (
           <ButtonContainer>
-            <Button primary click={action}>
+            <Button primary click={action} disabled={buttonDisabled}>
               {buttonText || "Okay"}
             </Button>
           </ButtonContainer>

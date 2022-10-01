@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { addIframe } from "../state/coreSlice";
@@ -17,8 +17,13 @@ interface Props {
 
 const Create = ({ show, close }: Props) => {
   const [value, setValue] = useState("");
+  const [valid, setValid] = useState(false);
 
   const dispatch = useDispatch();
+
+  const updateValid = async (url: string) => {
+    setValid(url.substring(0, 8) === "https://");
+  };
 
   return (
     <Popup
@@ -34,11 +39,15 @@ const Create = ({ show, close }: Props) => {
       }
       header="Enter website url"
       buttonText="Add to dashboard"
+      buttonDisabled={!value || !valid}
     >
       <StyledCreate>
         <Input
           value={value}
-          update={(value: string) => setValue(value)}
+          update={(value: string) => {
+            setValue(value);
+            updateValid(value);
+          }}
           placeholder="https://chase.manning.dev/"
         />
       </StyledCreate>
