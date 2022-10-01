@@ -23,7 +23,8 @@ const App = () => {
   return (
     <StyledApp>
       <Create show={!hasIframes} close={() => console.log("")} />
-      {hasIframes && iframes.map((iframe) => <Iframe iframe={iframe} />)}
+      {hasIframes &&
+        iframes.map((iframe) => <Iframe key={iframe.id} iframe={iframe} />)}
     </StyledApp>
   );
 };
