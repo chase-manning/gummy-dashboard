@@ -5,6 +5,7 @@ import Create from "./Create";
 
 const Container = styled.div`
   position: relative;
+  overflow: hidden;
 `;
 
 const StyledIframe = styled.iframe`
