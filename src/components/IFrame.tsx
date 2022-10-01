@@ -4,10 +4,10 @@ const StyledIframe = styled.iframe`
   width: 100%;
   height: 100%;
   border: none;
-  object-position: 250px 125px;
 `;
 
-interface IframeType {
+export interface IframeType {
+  id: string;
   url: string;
 }
 
