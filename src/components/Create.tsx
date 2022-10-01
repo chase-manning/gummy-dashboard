@@ -11,11 +11,14 @@ const StyledCreate = styled.div`
 `;
 
 interface Props {
+  containerId: string;
+  iframeId: string;
+  position: "left" | "right" | "top" | "bottom";
   show: boolean;
   close?: () => void;
 }
 
-const Create = ({ show, close }: Props) => {
+const Create = ({ show, close, containerId, position, iframeId }: Props) => {
   const [value, setValue] = useState("");
   const [valid, setValid] = useState(false);
 
@@ -32,8 +35,14 @@ const Create = ({ show, close }: Props) => {
       action={() => {
         dispatch(
           addIframe({
-            id: Math.round(Math.random() * 10000000000).toString(),
-            url: value,
+            containerId,
+            iframeId,
+            position,
+            iframe: {
+              type: "iframe",
+              id: Math.round(Math.random() * 10000000000).toString(),
+              url: value,
+            },
           })
         );
         if (close) close();

@@ -1,9 +1,11 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { Container, IframeType } from "../state/coreSlice";
 import Button from "./Button";
 import Create from "./Create";
 
-const Container = styled.div`
+const StyledContainer = styled.div`
+  flex: 1;
   position: relative;
   overflow: hidden;
 `;
@@ -78,24 +80,20 @@ const AddButton = styled.div`
   }};
 `;
 
-export interface IframeType {
-  id: string;
-  url: string;
-}
-
 interface Props {
+  container: Container;
   iframe: IframeType;
 }
 
 type Position = "top" | "bottom" | "left" | "right";
 
-const Iframe = ({ iframe }: Props) => {
+const Iframe = ({ container, iframe }: Props) => {
   const [open, setOpen] = useState("");
   const [createPosition, setCreatePosition] = useState<Position | "">("");
 
   return (
     <>
-      <Container>
+      <StyledContainer>
         <StyledIframe src={iframe.url} scrolling="no" />;
         <AddEvent
           top
@@ -141,8 +139,14 @@ const Iframe = ({ iframe }: Props) => {
             </Button>
           </AddButton>
         </AddEvent>
-      </Container>
-      <Create show={!!createPosition} close={() => setCreatePosition("")} />
+      </StyledContainer>
+      <Create
+        containerId={container.id}
+        iframeId={iframe.id}
+        position={createPosition || "left"}
+        show={!!createPosition}
+        close={() => setCreatePosition("")}
+      />
     </>
   );
 };

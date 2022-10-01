@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Create from "./components/Create";
-import Iframe from "./components/IFrame";
+import IframeContainer from "./components/IframeContainer";
 import { selectIframes } from "./state/coreSlice";
 
 const StyledApp = styled.div`
@@ -10,21 +10,24 @@ const StyledApp = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(260px, 1fr);
+  display: flex;
 `;
 
 const App = () => {
   const iframes = useSelector(selectIframes);
 
-  const hasIframes = iframes.length > 0;
+  const hasIframes = iframes.children.length > 0;
 
   return (
     <StyledApp>
-      <Create show={!hasIframes} close={() => console.log("")} />
-      {hasIframes &&
-        iframes.map((iframe) => <Iframe key={iframe.id} iframe={iframe} />)}
+      <Create
+        iframeId=""
+        show={!hasIframes}
+        close={() => console.log("")}
+        containerId="root"
+        position="right"
+      />
+      {hasIframes && <IframeContainer container={iframes} />}
     </StyledApp>
   );
 };
