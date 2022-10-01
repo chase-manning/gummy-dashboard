@@ -1,5 +1,8 @@
+import { useSelector } from "react-redux";
 import styled from "styled-components";
+import Create from "./components/Create";
 import Iframe from "./components/IFrame";
+import { selectIframes } from "./state/coreSlice";
 
 const StyledApp = styled.div`
   position: fixed;
@@ -13,11 +16,14 @@ const StyledApp = styled.div`
 `;
 
 const App = () => {
+  const iframes = useSelector(selectIframes);
+
+  const hasIframes = iframes.length > 0;
+
   return (
     <StyledApp>
-      <Iframe iframe={{ url: "https://mero.finance/pools" }} />
-      <Iframe iframe={{ url: "https://mero.finance/pools" }} />
-      <Iframe iframe={{ url: "https://mero.finance/pools" }} />
+      <Create show={!hasIframes} close={() => console.log("")} />
+      {hasIframes && iframes.map((iframe) => <Iframe iframe={iframe} />)}
     </StyledApp>
   );
 };
