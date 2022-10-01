@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { addIframe } from "../state/coreSlice";
@@ -29,14 +29,15 @@ const Create = ({ show, close }: Props) => {
     <Popup
       show={show}
       close={close}
-      action={() =>
+      action={() => {
         dispatch(
           addIframe({
             id: Math.round(Math.random() * 10000000000).toString(),
             url: value,
           })
-        )
-      }
+        );
+        if (close) close();
+      }}
       header="Enter website url"
       buttonText="Add to dashboard"
       buttonDisabled={!value || !valid}
