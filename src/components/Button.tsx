@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 interface ButtonProps {
   primary?: boolean;
+  disabled?: boolean;
 }
 
 const Container = styled.button`
@@ -31,8 +32,8 @@ const Container = styled.button`
 
   :disabled {
     cursor: not-allowed;
-    opacity: 0.5;
     transform: none;
+    filter: saturate(0) brightness(1.1);
   }
 `;
 
@@ -92,11 +93,16 @@ interface Props {
   wide?: boolean;
 }
 
-const Button = ({ children, click, primary }: Props): JSX.Element => {
+const Button = ({ children, click, primary, disabled }: Props): JSX.Element => {
   return (
-    <Container>
+    <Container disabled={disabled}>
       <Shadow primary={primary} />
-      <StyledButton onClick={() => click()} primary={primary}>
+      <StyledButton
+        onClick={() => {
+          if (!disabled) click();
+        }}
+        primary={primary}
+      >
         {children}
       </StyledButton>
     </Container>
