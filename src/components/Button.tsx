@@ -4,6 +4,7 @@ import styled from "styled-components";
 interface ButtonProps {
   primary?: boolean;
   disabled?: boolean;
+  circle?: boolean;
 }
 
 const Container = styled.button`
@@ -43,9 +44,12 @@ const Shadow = styled.div`
   height: 100%;
   top: 0;
   left: 0;
-  border-radius: 12px;
   transform: translateY(4px);
 
+  border-radius: ${(p: ButtonProps) => {
+    if (p.circle) return "50%";
+    return "12px";
+  }};
   background: ${(p: ButtonProps) => {
     if (p.primary) return "var(--primary-dark)";
     return "var(--border)";
@@ -55,19 +59,28 @@ const Shadow = styled.div`
 const StyledButton = styled.div`
   position: relative;
   padding: 0 2rem;
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 12px;
-  font-size: 1.7rem;
   font-weight: 700;
   letter-spacing: 0.8px;
   text-transform: uppercase;
-  height: 4.8rem;
   transform: translateY(0);
   transition: all 0.3s;
+  height: 4.8rem;
 
+  width: ${(p: ButtonProps) => {
+    if (p.circle) return "5.2rem";
+    return "100%";
+  }};
+  font-size: ${(p: ButtonProps) => {
+    if (p.circle) return "2.5rem";
+    return "1.7rem";
+  }};
+  border-radius: ${(p: ButtonProps) => {
+    if (p.circle) return "50%";
+    return "12px";
+  }};
   border: ${(p: ButtonProps) => {
     if (p.primary) return "none";
     return "2px solid var(--border)";
@@ -91,17 +104,25 @@ interface Props {
   loading?: boolean;
   children?: ReactNode;
   wide?: boolean;
+  circle?: boolean;
 }
 
-const Button = ({ children, click, primary, disabled }: Props): JSX.Element => {
+const Button = ({
+  children,
+  click,
+  primary,
+  disabled,
+  circle,
+}: Props): JSX.Element => {
   return (
     <Container disabled={disabled}>
-      <Shadow primary={primary} />
+      <Shadow primary={primary} circle={circle} />
       <StyledButton
         onClick={() => {
           if (!disabled) click();
         }}
         primary={primary}
+        circle={circle}
       >
         {children}
       </StyledButton>
