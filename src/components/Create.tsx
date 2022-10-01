@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { generateId } from "../helpers/id-helper";
 import { addIframe } from "../state/coreSlice";
 import Input from "./Input";
 import Popup from "./Popup";
@@ -40,7 +41,7 @@ const Create = ({ show, close, containerId, position, iframeId }: Props) => {
             position,
             iframe: {
               type: "iframe",
-              id: Math.round(Math.random() * 10000000000).toString(),
+              id: generateId(),
               url: value,
             },
           })
