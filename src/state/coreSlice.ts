@@ -53,7 +53,7 @@ export const coreSlice = createSlice({
             container = child;
             break;
           }
-          if (child.type == "iframe") continue;
+          if (child.type === "iframe") continue;
           for (const grandChild of (child as any).children) {
             if (grandChild.id === containerId) {
               container = grandChild;

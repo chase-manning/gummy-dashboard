@@ -25,9 +25,7 @@ const IframeContainer = ({ container }: Props) => {
         if (child.type === "iframe") {
           return <Iframe container={container} iframe={child} />;
         }
-        if (child.type === "container") {
-          return <IframeContainer container={child} />;
-        }
+        return <IframeContainer container={child} />;
       })}
     </StyledIframeContainer>
   );
