@@ -94,7 +94,7 @@ const Iframe = ({ container, iframe }: Props) => {
   return (
     <>
       <StyledContainer>
-        <StyledIframe src={iframe.url} scrolling="no" />;
+        <StyledIframe src={iframe.url} scrolling="yes" />;
         <AddEvent
           top
           onMouseEnter={() => setOpen("top")}
