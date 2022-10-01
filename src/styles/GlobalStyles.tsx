@@ -10,6 +10,9 @@ const GlobalStyle = createGlobalStyle`
         --primary-light: #f8e3eb;
         --primary-dark: #cf7da0;
         --error: red;
+        --plain: #FFFFFF;
+        --plain-shadow: #E7E4E7;
+        --plain-dark: #817D82;
     }
 
     * {
