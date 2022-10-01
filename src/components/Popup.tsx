@@ -26,22 +26,32 @@ const Background = styled.button`
   backdrop-filter: blur(5px);
 `;
 
-const Content = styled.div`
+const Container = styled.div`
   position: relative;
+  width: 600px;
   padding: 2rem;
-  background: white;
-  border-radius: 12px;
+  border-radius: 1rem;
+  background-color: var(--plain);
+  border: 2px solid var(--plain-shadow);
+  box-shadow: 0 0.3rem 0 0 var(--plain-shadow);
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--plain-dark);
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
-  max-width: 50rem;
   padding-top: 7rem;
+
+  @media (max-width: 768px) {
+    width: 90vw;
+  }
 `;
 
 const Header = styled.div`
   font-size: 2.4rem;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
   margin-bottom: 1rem;
   position: absolute;
   top: 2rem;
@@ -92,7 +102,7 @@ const Popup = ({
         }}
       />
 
-      <Content>
+      <Container>
         {header && <Header>{header}</Header>}
 
         {close && (
@@ -108,7 +118,7 @@ const Popup = ({
             </Button>
           </ButtonContainer>
         )}
-      </Content>
+      </Container>
     </StyledPopup>
   );
 };
