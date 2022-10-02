@@ -27,6 +27,19 @@ const Create = ({ show, close, containerId, position, iframeId }: Props) => {
     setValid(url.substring(0, 8) === "https://");
   };
 
+  const transformUrl = (url: string) => {
+    if (url.includes("youtu.be")) {
+      const id = url.substring(url.lastIndexOf("/") + 1);
+      return `https://www.youtube.com/embed/${id}?autoplay=1`;
+    }
+    if (url.includes("youtube.com")) {
+      const id = url.substring(url.indexOf("v=") + 2, url.indexOf("&"));
+      console.log(id);
+      return `https://www.youtube.com/embed/${id}?autoplay=1`;
+    }
+    return url;
+  };
+
   return (
     <Popup
       show={show}
@@ -38,7 +51,7 @@ const Create = ({ show, close, containerId, position, iframeId }: Props) => {
           {
             type: "iframe",
             id: generateId(),
-            url: value,
+            url: transformUrl(value),
           },
           position
         );
