@@ -23,9 +23,9 @@ const IframeContainer = ({ container }: Props) => {
     <StyledIframeContainer id={container.id} direction={container.direction}>
       {container.children.map((child) => {
         if (child.type === "iframe") {
-          return <Iframe container={container} iframe={child} />;
+          return <Iframe key={child.id} container={container} iframe={child} />;
         }
-        return <IframeContainer container={child} />;
+        return <IframeContainer key={child.id} container={child} />;
       })}
     </StyledIframeContainer>
   );
