@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import useRemoveIframe from "../app/remove-iframe";
+import useSetIframeScroll from "../app/set-iframe-scroll";
 import { Container, IframeType } from "../app/store";
 import useTick from "../app/tick";
 import Button from "./Button";
@@ -12,9 +13,16 @@ const StyledContainer = styled.div`
   overflow: hidden;
 `;
 
+const IframeContainer = styled.div`
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+`;
+
 const StyledIframe = styled.iframe`
   width: 100%;
-  height: 100%;
+  min-height: 1000%;
   border: none;
 `;
 
@@ -111,9 +119,17 @@ const Iframe = ({ container, iframe }: Props) => {
   const [open, setOpen] = useState("");
   const [deleting, setDeleting] = useState(false);
   const [createPosition, setCreatePosition] = useState<Position | "">("");
+  const setIframeScroll = useSetIframeScroll();
+
   const removeIframe = useRemoveIframe();
   const tick = useTick();
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const iframeContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!iframeContainerRef.current) return;
+    iframeContainerRef.current.scrollTop = iframe.scroll;
+  }, [iframeContainerRef.current]);
 
   useEffect(() => {
     if (tick === 0) return;
@@ -125,14 +141,21 @@ const Iframe = ({ container, iframe }: Props) => {
   return (
     <>
       <StyledContainer>
-        <StyledIframe
-          ref={iframeRef}
-          src={iframe.url}
-          scrolling="yes"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
+        <IframeContainer
+          ref={iframeContainerRef}
+          onScroll={(e) => {
+            setIframeScroll(iframe.id, e.currentTarget.scrollTop);
+          }}
+        >
+          <StyledIframe
+            ref={iframeRef}
+            src={iframe.url}
+            scrolling="no"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </IframeContainer>
         ;
         <AddEvent
           top
