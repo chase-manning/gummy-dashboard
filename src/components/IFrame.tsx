@@ -115,7 +115,14 @@ const Iframe = ({ container, iframe }: Props) => {
   return (
     <>
       <StyledContainer>
-        <StyledIframe src={iframe.url} scrolling="yes" />;
+        <StyledIframe
+          src={iframe.url}
+          scrolling="yes"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+        ;
         <AddEvent
           top
           onMouseEnter={() => setOpen("top")}
