@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import useRemoveIframe from "../app/remove-iframe";
 import { Container, IframeType } from "../app/store";
+import useTick from "../app/tick";
 import Button from "./Button";
 import Create from "./Create";
 
@@ -111,11 +112,21 @@ const Iframe = ({ container, iframe }: Props) => {
   const [deleting, setDeleting] = useState(false);
   const [createPosition, setCreatePosition] = useState<Position | "">("");
   const removeIframe = useRemoveIframe();
+  const tick = useTick();
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  useEffect(() => {
+    if (tick === 0) return;
+    if (!iframeRef.current) return;
+    if (iframe.url.includes("youtube")) return;
+    iframeRef.current.src += "";
+  }, [tick]);
 
   return (
     <>
       <StyledContainer>
         <StyledIframe
+          ref={iframeRef}
           src={iframe.url}
           scrolling="yes"
           frameBorder="0"
