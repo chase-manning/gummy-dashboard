@@ -40,25 +40,27 @@ const Create = ({ show, close, containerId, position, iframeId }: Props) => {
     return url;
   };
 
+  const action = () => {
+    addIframe(
+      containerId,
+      iframeId,
+      {
+        type: "iframe",
+        id: generateId(),
+        url: transformUrl(value),
+      },
+      position
+    );
+    setValue("");
+    setValid(false);
+    if (close) close();
+  };
+
   return (
     <Popup
       show={show}
       close={close}
-      action={() => {
-        addIframe(
-          containerId,
-          iframeId,
-          {
-            type: "iframe",
-            id: generateId(),
-            url: transformUrl(value),
-          },
-          position
-        );
-        setValue("");
-        setValid(false);
-        if (close) close();
-      }}
+      action={action}
       header="Enter website url"
       buttonText="Add to dashboard"
       buttonDisabled={!value || !valid}
@@ -71,6 +73,7 @@ const Create = ({ show, close, containerId, position, iframeId }: Props) => {
             updateValid(value);
           }}
           placeholder="e.g. https://chase.manning.dev/"
+          action={action}
         />
       </StyledCreate>
     </Popup>

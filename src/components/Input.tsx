@@ -42,18 +42,25 @@ const Max = styled.button`
   width: 100%;
 `;
 
-type Props = {
+interface Props {
   value: string;
   update: (value: string) => void;
   placeholder?: string;
   type?: string;
   max?: string;
-};
+  action: () => void;
+}
 
-const Input: React.FC<Props> = (props) => {
+const Input = (props: Props) => {
   return (
     <Container>
       <StyledInput
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            props.action();
+          }
+        }}
         autoFocus
         value={props.value}
         type={props.type || "text"}
