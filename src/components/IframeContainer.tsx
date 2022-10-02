@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Container } from "../state/coreSlice";
+import { Container } from "../app/store";
 import Iframe from "./IFrame";
 
 interface ContainerProps {

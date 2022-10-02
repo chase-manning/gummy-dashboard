@@ -1,8 +1,7 @@
-import { useSelector } from "react-redux";
 import styled from "styled-components";
+import useStore from "./app/store";
 import Create from "./components/Create";
 import IframeContainer from "./components/IframeContainer";
-import { selectIframes } from "./state/coreSlice";
 
 const StyledApp = styled.div`
   position: fixed;
@@ -14,9 +13,9 @@ const StyledApp = styled.div`
 `;
 
 const App = () => {
-  const iframes = useSelector(selectIframes);
+  const { store } = useStore();
 
-  const hasIframes = iframes.children.length > 0;
+  const hasIframes = store.iframes.children.length > 0;
 
   return (
     <StyledApp>
@@ -27,7 +26,7 @@ const App = () => {
         containerId="root"
         position="right"
       />
-      {hasIframes && <IframeContainer container={iframes} />}
+      {hasIframes && <IframeContainer container={store.iframes} />}
     </StyledApp>
   );
 };

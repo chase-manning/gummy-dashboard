@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import useAddIframe from "../app/add-iframe";
 import { generateId } from "../helpers/id-helper";
-import { addIframe } from "../state/coreSlice";
 import Input from "./Input";
 import Popup from "./Popup";
 
@@ -22,8 +21,7 @@ interface Props {
 const Create = ({ show, close, containerId, position, iframeId }: Props) => {
   const [value, setValue] = useState("");
   const [valid, setValid] = useState(false);
-
-  const dispatch = useDispatch();
+  const addIframe = useAddIframe();
 
   const updateValid = async (url: string) => {
     setValid(url.substring(0, 8) === "https://");
@@ -34,17 +32,15 @@ const Create = ({ show, close, containerId, position, iframeId }: Props) => {
       show={show}
       close={close}
       action={() => {
-        dispatch(
-          addIframe({
-            containerId,
-            iframeId,
-            position,
-            iframe: {
-              type: "iframe",
-              id: generateId(),
-              url: value,
-            },
-          })
+        addIframe(
+          containerId,
+          iframeId,
+          {
+            type: "iframe",
+            id: generateId(),
+            url: value,
+          },
+          position
         );
         if (close) close();
       }}

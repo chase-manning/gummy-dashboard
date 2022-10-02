@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { Container, IframeType } from "../state/coreSlice";
+import { Container, IframeType } from "../app/store";
 import Button from "./Button";
 import Create from "./Create";
 
