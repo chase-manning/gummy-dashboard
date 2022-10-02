@@ -129,6 +129,7 @@ const Iframe = ({ container, iframe }: Props) => {
   useEffect(() => {
     if (!iframeContainerRef.current) return;
     iframeContainerRef.current.scrollTop = iframe.scroll;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [iframeContainerRef.current]);
 
   useEffect(() => {
@@ -136,6 +137,7 @@ const Iframe = ({ container, iframe }: Props) => {
     if (!iframeRef.current) return;
     if (iframe.url.includes("youtube")) return;
     iframeRef.current.src += "";
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tick]);
 
   return (
