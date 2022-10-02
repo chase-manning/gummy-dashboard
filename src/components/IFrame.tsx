@@ -136,7 +136,7 @@ const Iframe = ({ container, iframe }: Props) => {
   const isOnly = container.children.length === 1 && container.id === "root";
 
   useEffect(() => {
-    if (heightBuffer == 1) {
+    if (heightBuffer === 1) {
       setHeightBuffer(iframe.scroll + 1);
     }
 
