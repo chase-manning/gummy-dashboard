@@ -20,9 +20,14 @@ const IframeContainer = styled.div`
   overflow: auto;
 `;
 
+interface IframeProps {
+  disableScroll: boolean;
+}
+
 const StyledIframe = styled.iframe`
   width: 100%;
-  min-height: 1000%;
+  min-height: ${(props: IframeProps) =>
+    props.disableScroll ? "100%" : "1000%"};
   border: none;
 `;
 
@@ -126,6 +131,8 @@ const Iframe = ({ container, iframe }: Props) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const iframeContainerRef = useRef<HTMLDivElement>(null);
 
+  const isYoutube = iframe.url.includes("youtube");
+
   useEffect(() => {
     if (!iframeContainerRef.current) return;
     iframeContainerRef.current.scrollTop = iframe.scroll;
@@ -135,7 +142,7 @@ const Iframe = ({ container, iframe }: Props) => {
   useEffect(() => {
     if (tick === 0) return;
     if (!iframeRef.current) return;
-    if (iframe.url.includes("youtube")) return;
+    if (isYoutube) return;
     iframeRef.current.src += "";
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tick]);
@@ -150,6 +157,7 @@ const Iframe = ({ container, iframe }: Props) => {
           }}
         >
           <StyledIframe
+            disableScroll={isYoutube}
             ref={iframeRef}
             src={iframe.url}
             scrolling="no"
