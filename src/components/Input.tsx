@@ -54,6 +54,7 @@ const Input: React.FC<Props> = (props) => {
   return (
     <Container>
       <StyledInput
+        autoFocus
         value={props.value}
         type={props.type || "text"}
         placeholder={props.placeholder}
