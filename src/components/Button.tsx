@@ -5,6 +5,7 @@ interface ButtonProps {
   primary?: boolean;
   disabled?: boolean;
   circle?: boolean;
+  destructive?: boolean;
 }
 
 const Container = styled.button`
@@ -51,6 +52,7 @@ const Shadow = styled.div`
     return "12px";
   }};
   background: ${(p: ButtonProps) => {
+    if (p.destructive) return "var(--danger-dark)";
     if (p.primary) return "var(--primary-dark)";
     return "var(--border)";
   }};
@@ -82,15 +84,18 @@ const StyledButton = styled.div`
     return "12px";
   }};
   border: ${(p: ButtonProps) => {
+    if (p.destructive) return "none";
     if (p.primary) return "none";
     return "2px solid var(--border)";
   }};
   border-bottom: none;
   background: ${(p: ButtonProps) => {
+    if (p.destructive) return "var(--danger)";
     if (p.primary) return "var(--primary)";
     return "var(--bg)";
   }};
   color: ${(p: ButtonProps) => {
+    if (p.destructive) return "var(--bg)";
     if (p.primary) return "var(--bg)";
     return "var(--sub)";
   }};
@@ -105,6 +110,7 @@ interface Props {
   children?: ReactNode;
   wide?: boolean;
   circle?: boolean;
+  destructive?: boolean;
 }
 
 const Button = ({
@@ -113,16 +119,18 @@ const Button = ({
   primary,
   disabled,
   circle,
+  destructive,
 }: Props): JSX.Element => {
   return (
     <Container disabled={disabled}>
-      <Shadow primary={primary} circle={circle} />
+      <Shadow primary={primary} circle={circle} destructive={destructive} />
       <StyledButton
         onClick={() => {
           if (!disabled) click();
         }}
         primary={primary}
         circle={circle}
+        destructive={destructive}
       >
         {children}
       </StyledButton>
