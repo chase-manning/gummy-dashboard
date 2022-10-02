@@ -54,8 +54,7 @@ const addIframe = (
     iframes = addIframeToChild(iframes, iframeId, iframe, position);
     return iframes;
   } else {
-    for (let i = 0; i < iframes.children.length; i++) {
-      let child = iframes.children[i];
+    for (let child of iframes.children) {
       if (child.id === containerId) {
         child = addIframeToChild(
           child as Container,
@@ -66,8 +65,7 @@ const addIframe = (
         return iframes;
       }
       if (child.type === "iframe") continue;
-      for (let j = 0; j < (child as Container).children.length; j++) {
-        let grandChild = (child as Container).children[j];
+      for (let grandChild of (child as Container).children) {
         if (grandChild.id === containerId) {
           grandChild = addIframeToChild(
             grandChild as Container,
@@ -78,8 +76,7 @@ const addIframe = (
           return iframes;
         }
         if (grandChild.type === "iframe") continue;
-        for (let k = 0; k < (grandChild as Container).children.length; k++) {
-          let greatGrandChild = (grandChild as Container).children[k];
+        for (let greatGrandChild of (grandChild as Container).children) {
           if (greatGrandChild.id === containerId) {
             greatGrandChild = addIframeToChild(
               greatGrandChild as Container,
