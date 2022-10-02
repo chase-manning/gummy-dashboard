@@ -42,6 +42,8 @@ const Create = ({ show, close, containerId, position, iframeId }: Props) => {
           },
           position
         );
+        setValue("");
+        setValid(false);
         if (close) close();
       }}
       header="Enter website url"
