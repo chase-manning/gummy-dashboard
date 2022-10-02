@@ -1,5 +1,5 @@
 import { generateId } from "../helpers/id-helper";
-import useStore, { Child, Container, IframeType } from "./store";
+import useStore, { Container, IframeType } from "./store";
 
 const addIframeToChild = (
   container: Container,
@@ -8,6 +8,7 @@ const addIframeToChild = (
   position: "left" | "right" | "top" | "bottom"
 ): Container => {
   const isNewLR = position === "left" || position === "right";
+  const isNewLT = position === "left" || position === "top";
   const isCurentLR = container.direction === "row";
 
   // Adding if first child
@@ -16,12 +17,10 @@ const addIframeToChild = (
     return container;
   }
 
-  const source = container.children.findIndex(
-    (child: Child) => child.id === iframeId
-  );
+  const source = container.children.findIndex((child) => child.id === iframeId);
   // If adding an iframe to existing container
   if (isNewLR === isCurentLR) {
-    if (position === "left" || position === "top") {
+    if (isNewLT) {
       container.children.splice(source, 0, iframe);
     } else {
       container.children.splice(source + 1, 0, iframe);
@@ -35,63 +34,26 @@ const addIframeToChild = (
     id: generateId(),
     type: "container",
     direction: isNewLR ? "row" : "column",
-    children: [
-      position === "left" || position === "top" ? iframe : oldChild,
-      position === "left" || position === "top" ? oldChild : iframe,
-    ],
+    children: isNewLT ? [iframe, oldChild] : [oldChild, iframe],
   };
   return container;
 };
 
 const addIframe = (
-  iframes: Container,
+  container: Container,
   containerId: string,
   iframeId: string,
   iframe: IframeType,
   position: "left" | "right" | "top" | "bottom"
 ): Container => {
-  if (iframes.id === containerId) {
-    iframes = addIframeToChild(iframes, iframeId, iframe, position);
-    return iframes;
-  } else {
-    for (let child of iframes.children) {
-      if (child.id === containerId) {
-        child = addIframeToChild(
-          child as Container,
-          iframeId,
-          iframe,
-          position
-        );
-        return iframes;
-      }
-      if (child.type === "iframe") continue;
-      for (let grandChild of (child as Container).children) {
-        if (grandChild.id === containerId) {
-          grandChild = addIframeToChild(
-            grandChild as Container,
-            iframeId,
-            iframe,
-            position
-          );
-          return iframes;
-        }
-        if (grandChild.type === "iframe") continue;
-        for (let greatGrandChild of (grandChild as Container).children) {
-          if (greatGrandChild.id === containerId) {
-            greatGrandChild = addIframeToChild(
-              greatGrandChild as Container,
-              iframeId,
-              iframe,
-              position
-            );
-            return iframes;
-          }
-        }
-      }
-    }
+  if (container.id === containerId) {
+    return addIframeToChild(container, iframeId, iframe, position);
   }
-
-  throw new Error("Container not found");
+  for (let child of container.children) {
+    if (child.type === "iframe") continue;
+    child = addIframe(child, containerId, iframeId, iframe, position);
+  }
+  return container;
 };
 
 const useAddIframe = () => {
