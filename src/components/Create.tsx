@@ -52,6 +52,7 @@ const Create = ({ show, close, containerId, position, iframeId }: Props) => {
     >
       <StyledCreate>
         <Input
+          autoFocus
           value={value}
           update={(value: string) => {
             setValue(value);
