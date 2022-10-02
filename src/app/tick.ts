@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const TICKS_PER_MINUTE = 1;
+const TICKS_PER_MINUTE = 0.1;
 
 const useTick = () => {
   const [tick, setTick] = useState(0);
