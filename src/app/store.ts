@@ -4,6 +4,7 @@ export interface IframeType {
   id: string;
   url: string;
   type: "iframe";
+  scroll: number;
 }
 
 export type Child = Container | IframeType;

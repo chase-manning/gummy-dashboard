@@ -48,6 +48,7 @@ const Create = ({ show, close, containerId, position, iframeId }: Props) => {
         type: "iframe",
         id: generateId(),
         url: transformUrl(value),
+        scroll: 0,
       },
       position
     );
