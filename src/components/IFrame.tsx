@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
+import useRemoveIframe from "../app/remove-iframe";
 import { Container, IframeType } from "../app/store";
 import Button from "./Button";
 import Create from "./Create";
@@ -36,8 +37,6 @@ const AddEvent = styled.div`
 
 const AddButton = styled.div`
   position: absolute;
-  width: 4rem;
-  height: 4rem;
   transition: all 0.3s;
 
   top: ${(p: PositionProps) => {
@@ -80,6 +79,26 @@ const AddButton = styled.div`
   }};
 `;
 
+const DeleteEvent = styled.div`
+  position: absolute;
+  width: 10rem;
+  height: 10rem;
+  top: 0;
+  right: 0;
+`;
+
+const DeleteButton = styled.div`
+  position: absolute;
+  top: 2.5rem;
+  right: 2.5rem;
+  transition: all 0.3s;
+
+  transform: ${(p: PositionProps) => {
+    if (p.open) return "translate(0, 0)";
+    return "translate(8rem, -8rem)";
+  }};
+`;
+
 interface Props {
   container: Container;
   iframe: IframeType;
@@ -89,7 +108,9 @@ type Position = "top" | "bottom" | "left" | "right";
 
 const Iframe = ({ container, iframe }: Props) => {
   const [open, setOpen] = useState("");
+  const [deleting, setDeleting] = useState(false);
   const [createPosition, setCreatePosition] = useState<Position | "">("");
+  const removeIframe = useRemoveIframe();
 
   return (
     <>
@@ -139,6 +160,20 @@ const Iframe = ({ container, iframe }: Props) => {
             </Button>
           </AddButton>
         </AddEvent>
+        <DeleteEvent
+          onMouseEnter={() => setDeleting(true)}
+          onMouseLeave={() => setDeleting(false)}
+        >
+          <DeleteButton open={deleting}>
+            <Button
+              destructive
+              circle
+              click={() => removeIframe(container.id, iframe.id)}
+            >
+              x
+            </Button>
+          </DeleteButton>
+        </DeleteEvent>
       </StyledContainer>
       <Create
         containerId={container.id}

@@ -1,9 +1,9 @@
-Add ability to resize areas
-Add ability to delete iframes
-Add ability to move iframs
-Add edit and normal mode
 Add ability to zoom and adjust framing
+Add introduction page with tutorial and cleaner welcome
+Add preview image
+Twitter post
+Add ability to resize areas
 
 ======== UNORDERED ==========
 
-Add introduction page with tutorial and cleaner welcome
+Add enter support
