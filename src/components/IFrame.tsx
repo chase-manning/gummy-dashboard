@@ -133,6 +133,8 @@ const Iframe = ({ container, iframe }: Props) => {
 
   const isYoutube = iframe.url.includes("youtube");
 
+  const isOnly = container.children.length === 1 && container.id === "root";
+
   useEffect(() => {
     if (!iframeContainerRef.current) return;
     iframeContainerRef.current.scrollTop = iframe.scroll;
@@ -172,7 +174,7 @@ const Iframe = ({ container, iframe }: Props) => {
           onMouseEnter={() => setOpen("top")}
           onMouseLeave={() => setOpen("")}
         >
-          <AddButton top open={open === "top"}>
+          <AddButton top open={isOnly || open === "top"}>
             <Button primary circle click={() => setCreatePosition("top")}>
               +
             </Button>
@@ -183,7 +185,7 @@ const Iframe = ({ container, iframe }: Props) => {
           onMouseEnter={() => setOpen("bottom")}
           onMouseLeave={() => setOpen("")}
         >
-          <AddButton bottom open={open === "bottom"}>
+          <AddButton bottom open={isOnly || open === "bottom"}>
             <Button primary circle click={() => setCreatePosition("bottom")}>
               +
             </Button>
@@ -194,7 +196,7 @@ const Iframe = ({ container, iframe }: Props) => {
           onMouseEnter={() => setOpen("left")}
           onMouseLeave={() => setOpen("")}
         >
-          <AddButton left open={open === "left"}>
+          <AddButton left open={isOnly || open === "left"}>
             <Button primary circle click={() => setCreatePosition("left")}>
               +
             </Button>
@@ -205,7 +207,7 @@ const Iframe = ({ container, iframe }: Props) => {
           onMouseEnter={() => setOpen("right")}
           onMouseLeave={() => setOpen("")}
         >
-          <AddButton right open={open === "right"}>
+          <AddButton right open={isOnly || open === "right"}>
             <Button primary circle click={() => setCreatePosition("right")}>
               +
             </Button>
@@ -215,7 +217,7 @@ const Iframe = ({ container, iframe }: Props) => {
           onMouseEnter={() => setDeleting(true)}
           onMouseLeave={() => setDeleting(false)}
         >
-          <DeleteButton open={deleting}>
+          <DeleteButton open={isOnly || deleting}>
             <Button
               destructive
               circle
