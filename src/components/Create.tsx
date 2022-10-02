@@ -55,7 +55,7 @@ const Create = ({ show, close, containerId, position, iframeId }: Props) => {
             setValue(value);
             updateValid(value);
           }}
-          placeholder="https://chase.manning.dev/"
+          placeholder="e.g. https://chase.manning.dev/"
         />
       </StyledCreate>
     </Popup>
