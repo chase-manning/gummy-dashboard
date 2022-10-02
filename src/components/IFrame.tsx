@@ -21,13 +21,12 @@ const IframeContainer = styled.div`
 `;
 
 interface IframeProps {
-  disableScroll: boolean;
+  heightBuffer: number;
 }
 
 const StyledIframe = styled.iframe`
   width: 100%;
-  min-height: ${(props: IframeProps) =>
-    props.disableScroll ? "100%" : "1000%"};
+  height: ${(props: IframeProps) => `calc(100% + ${props.heightBuffer}px)`};
   border: none;
 `;
 
@@ -124,6 +123,7 @@ const Iframe = ({ container, iframe }: Props) => {
   const [open, setOpen] = useState("");
   const [deleting, setDeleting] = useState(false);
   const [createPosition, setCreatePosition] = useState<Position | "">("");
+  const [heightBuffer, setHeightBuffer] = useState(1);
   const setIframeScroll = useSetIframeScroll();
 
   const removeIframe = useRemoveIframe();
@@ -136,10 +136,16 @@ const Iframe = ({ container, iframe }: Props) => {
   const isOnly = container.children.length === 1 && container.id === "root";
 
   useEffect(() => {
+    if (heightBuffer == 1) {
+      setHeightBuffer(iframe.scroll + 1);
+    }
+
     if (!iframeContainerRef.current) return;
+    if (heightBuffer === 1) return;
+    if (iframeContainerRef.current.scrollTop > 2) return;
     iframeContainerRef.current.scrollTop = iframe.scroll;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [iframeContainerRef.current]);
+  }, [iframeContainerRef.current, heightBuffer]);
 
   useEffect(() => {
     if (tick === 0) return;
@@ -155,11 +161,15 @@ const Iframe = ({ container, iframe }: Props) => {
         <IframeContainer
           ref={iframeContainerRef}
           onScroll={(e) => {
-            setIframeScroll(iframe.id, e.currentTarget.scrollTop);
+            const scroll = e.currentTarget.scrollTop;
+            if (scroll > heightBuffer) {
+              setHeightBuffer(Math.max(scroll + 20, heightBuffer));
+            }
+            setIframeScroll(iframe.id, scroll);
           }}
         >
           <StyledIframe
-            disableScroll={isYoutube}
+            heightBuffer={heightBuffer}
             ref={iframeRef}
             src={iframe.url}
             scrolling="no"
@@ -168,7 +178,6 @@ const Iframe = ({ container, iframe }: Props) => {
             allowFullScreen
           />
         </IframeContainer>
-        ;
         <AddEvent
           top
           onMouseEnter={() => setOpen("top")}
